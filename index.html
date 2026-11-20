@@ -232,6 +232,18 @@ button:disabled{opacity:.5;cursor:not-allowed}
 </div>
 <div id="toast" class="toast"></div>
 
+<script>
+window.addEventListener("error", function(e) {
+  const box = document.getElementById("loginStatus");
+  if (box) box.textContent = "App error: " + (e.message || "JavaScript error");
+});
+
+window.addEventListener("unhandledrejection", function(e) {
+  const box = document.getElementById("loginStatus");
+  if (box) box.textContent = "Firebase error: " + (e.reason?.message || e.reason || "Unknown error");
+});
+</script>
+ 
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
