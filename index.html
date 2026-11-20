@@ -4,293 +4,321 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Nishad Connect</title>
+<meta name="theme-color" content="#0b1120">
+<title>Nishad Connect — Business Messaging</title>
 <style>
-:root{--bg:#0b1120;--panel:#131e31;--card:#1e293b;--blue:#1687f8;--cyan:#00d9ff;--muted:#91a2ba;--line:#30415a;--white:#f5f8ff}
+:root{
+ --bg:#0b1120;--sidebar:#0e1829;--panel:#142137;--card:#1b2a40;
+ --border:#2b3b53;--text:#f4f8ff;--muted:#91a3bb;
+ --cyan:#00d9ff;--blue:#2589f5;--green:#00df9a;
+ --red:#ff5574;--gold:#ffc766;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--white);font-family:Arial,sans-serif}
-header{height:62px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:#101a2b;position:sticky;top:0;z-index:2}
-.brand{font-weight:800;font-size:19px;letter-spacing:.2px}.brand span{color:var(--cyan)}
-main{max-width:900px;margin:25px auto;padding:0 15px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:20px;margin-bottom:16px}
-h2{font-size:21px;margin:0 0 8px}h3{font-size:16px;margin:0 0 14px}
-.muted{color:var(--muted);font-size:13px;line-height:1.5}
-input,textarea{width:100%;padding:13px;margin:7px 0 13px;border:1px solid var(--line);border-radius:6px;background:#0b1526;color:white;font-size:15px;outline:none}
-input:focus,textarea:focus{border-color:var(--cyan)}
-button{border:0;border-radius:6px;background:var(--blue);color:white;padding:12px 16px;font-size:14px;font-weight:700;cursor:pointer}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer;transition:.2s}
 button:disabled{opacity:.5;cursor:not-allowed}
-button.secondary{background:#26364d;border:1px solid var(--line)}
-button.danger{background:#a83243}
-button.full{width:100%}
-.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
-.row>*{flex:1}
 .hidden{display:none!important}
-.status{font-size:13px;color:var(--cyan);margin:10px 0;min-height:18px}
-.linkitem{padding:13px 0;border-bottom:1px solid var(--line)}
-.linkitem:last-child{border:0}
-.linkurl{font-size:12px;color:var(--muted);word-break:break-all;margin:7px 0}
-.chatbox{height:48vh;min-height:260px;max-height:480px;overflow-y:auto;background:#0a1424;border:1px solid var(--line);border-radius:7px;padding:12px;margin:12px 0}
-.msg{max-width:85%;background:#1d2d45;border-radius:8px;padding:10px 12px;margin:8px 0;overflow-wrap:anywhere}
-.msg.mine{margin-left:auto;background:#075c80}
-.msgname{font-size:11px;color:#9edfff;margin-bottom:5px}
-.msgtext{white-space:pre-wrap;font-size:14px;line-height:1.4}
-.msgtime{font-size:10px;color:#a8b6c8;margin-top:5px}
-#chatInput{margin:0;resize:none}
-footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
-@media(max-width:500px){main{margin:15px auto}.panel{padding:15px}.row button{padding:12px 9px}}
+.app{min-height:100vh}
+.sidebar{
+ position:fixed;inset:0 auto 0 0;width:245px;background:var(--sidebar);
+ border-right:1px solid var(--border);padding:22px 15px;z-index:5;
+ display:flex;flex-direction:column
+}
+.logo{display:flex;align-items:center;gap:11px;padding:4px 8px 28px}
+.logoicon{width:39px;height:39px;border-radius:11px;display:grid;place-items:center;
+ background:linear-gradient(140deg,#00d9ff,#2876f5);color:#07111f;font-size:21px;font-weight:900}
+.logoname{font-size:17px;font-weight:800;letter-spacing:-.5px}
+.logoname span{color:var(--cyan)}
+.navlabel{font-size:10px;color:#71849f;letter-spacing:1.5px;padding:12px 11px}
+.navbtn{width:100%;display:flex;align-items:center;gap:12px;padding:12px;
+ border:0;background:transparent;color:#9aacc3;border-radius:7px;text-align:left;
+ font-size:13px;margin:3px 0}
+.navbtn .ico{width:20px;text-align:center;font-size:17px}
+.navbtn:hover,.navbtn.active{background:#1b3049;color:#fff}
+.navbtn.active{box-shadow:inset 3px 0 var(--cyan)}
+.sidebarbottom{margin-top:auto}
+.planbox{border:1px solid var(--border);background:#142238;border-radius:8px;padding:13px}
+.planbox strong{font-size:12px}.planbox p{font-size:11px;color:var(--muted);line-height:1.5}
+.main{margin-left:245px;min-height:100vh}
+.topbar{height:70px;border-bottom:1px solid var(--border);display:flex;align-items:center;
+ justify-content:space-between;padding:0 28px;background:#0d1727;position:sticky;top:0;z-index:4}
+.topleft{display:flex;align-items:center;gap:12px}
+.topbar h2{font-size:16px;margin:0}
+.topright{display:flex;align-items:center;gap:15px}
+.livepill{font-size:11px;color:var(--green);border:1px solid #146d5a;padding:6px 10px;border-radius:30px}
+.avatar{height:34px;width:34px;border-radius:50%;display:grid;place-items:center;
+ background:#164b67;color:#8feaff;font-weight:800;font-size:13px}
+.content{max-width:1250px;padding:28px;margin:auto}
+.welcome{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:23px}
+.welcome h1{font-size:23px;letter-spacing:-.7px;margin:0 0 7px}
+.sub{font-size:12px;color:var(--muted)}
+.btn{border:1px solid transparent;border-radius:6px;padding:11px 15px;
+ color:white;background:var(--blue);font-size:12px;font-weight:700}
+.btn:hover{filter:brightness(1.14);transform:translateY(-1px)}
+.btn.secondary{background:#1b2b42;border-color:var(--border);color:#d8e5f6}
+.btn.danger{background:#462335;border-color:#854052;color:#ff9aab}
+.btn.cyan{background:#063b50;border-color:#087b9a;color:#6ceaff}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}
+.stat{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:17px;position:relative;overflow:hidden}
+.stat:after{content:"";position:absolute;width:80px;height:80px;border-radius:50%;
+ background:var(--glow,#00d9ff);opacity:.07;right:-22px;top:-24px;filter:blur(2px)}
+.stathead{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
+.staticon{color:var(--cyan);font-size:17px}
+.statvalue{font-size:26px;font-weight:800;margin:14px 0 5px;letter-spacing:-1px}
+.statfoot{font-size:10px;color:var(--muted)}
+.gridmain{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(240px,.8fr);gap:15px}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:15px;min-width:0}
+.panelhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}
+.panelhead h3{font-size:13px;margin:0}
+.panelhead small{font-size:10px;color:var(--muted)}
+.search{background:#0b1728;border:1px solid var(--border);color:white;border-radius:6px;padding:10px 12px;width:100%;font-size:12px;outline:none}
+.search:focus{border-color:var(--cyan)}
+.linklist{display:flex;flex-direction:column}
+.linkrow{display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid #26364d;min-width:0}
+.linkmark{width:35px;height:35px;flex-shrink:0;border-radius:8px;background:#12394d;color:var(--cyan);display:grid;place-items:center}
+.linkinfo{flex:1;min-width:0}
+.linkinfo strong{font-size:12px;display:block;margin-bottom:5px}
+.linkinfo small{font-size:10px;color:var(--muted);overflow-wrap:anywhere}
+.status{font-size:10px;padding:5px 8px;border-radius:30px;white-space:nowrap}
+.status.on{background:#073c32;color:#45e5b2}
+.status.off{background:#442332;color:#ff9caf}
+.linkactions{display:flex;gap:5px;flex-wrap:wrap}
+.mini{border:1px solid var(--border);background:#1c2b40;color:#dce9fa;border-radius:5px;padding:7px 9px;font-size:10px}
+.mini:hover{border-color:var(--cyan)}
+.activity{display:flex;gap:11px;padding:12px 0;border-top:1px solid #26364d}
+.dot{width:8px;height:8px;background:var(--green);border-radius:50%;margin-top:4px;box-shadow:0 0 9px #00df9a}
+.activity strong{font-size:11px}.activity p{font-size:10px;color:var(--muted);margin:4px 0}
+.empty{text-align:center;padding:30px 10px;color:var(--muted);font-size:12px}
+.emptyicon{font-size:30px;margin-bottom:12px;color:var(--cyan)}
+.loginwrap{min-height:100vh;display:grid;place-items:center;padding:20px;
+ background:radial-gradient(ellipse at 50% 0%,#12334c 0%,#0b1120 55%)}
+.login{width:min(420px,100%);background:#121f33;border:1px solid var(--border);
+ border-radius:12px;padding:30px;box-shadow:0 25px 90px #0008;animation:rise .5s ease}
+.login .logo{padding:0 0 25px}
+.login h1{font-size:24px;margin:0 0 7px}
+.field{margin-top:17px}.field label{display:block;font-size:11px;color:#a7b8ce;margin-bottom:7px}
+.field input{width:100%;background:#0b1728;border:1px solid var(--border);color:white;
+ padding:13px;border-radius:6px;outline:none}
+.field input:focus{border-color:var(--cyan)}
+.login .btn{width:100%;margin-top:20px;padding:13px}
+.note{font-size:10px;color:var(--muted);line-height:1.6;margin-top:17px}
+.toast{position:fixed;bottom:25px;left:50%;transform:translate(-50%,20px);
+ background:#18354a;border:1px solid #087d9a;padding:12px 18px;border-radius:7px;
+ font-size:12px;opacity:0;pointer-events:none;z-index:20;transition:.25s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.modalback{position:fixed;inset:0;background:#020711c9;z-index:10;display:grid;place-items:center;padding:15px}
+.modal{width:min(430px,100%);background:#142137;border:1px solid var(--border);border-radius:10px;padding:22px;animation:rise .2s ease}
+.modal h3{margin:0 0 8px;font-size:17px}
+.modal input{width:100%;background:#0b1728;border:1px solid var(--border);color:white;padding:12px;border-radius:6px;margin:13px 0}
+.chatlayout{display:grid;grid-template-columns:280px 1fr;min-height:70vh;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.chatlist{background:#101c2e;border-right:1px solid var(--border);padding:16px}
+.chatroom{padding:17px;min-width:0}
+.chatmessages{height:48vh;min-height:270px;overflow:auto;background:#0a1525;border-radius:7px;padding:14px}
+.bubble{max-width:80%;background:#1c304a;padding:10px 12px;border-radius:9px;margin:9px 0;animation:pop .2s ease;overflow-wrap:anywhere}
+.bubble.mine{margin-left:auto;background:#075271}
+.bubble b{display:block;font-size:10px;color:#78dcf2;margin-bottom:5px}
+.bubble p{font-size:13px;line-height:1.5;margin:0;white-space:pre-wrap}
+.bubble time{display:block;font-size:9px;color:#a2b7ce;margin-top:5px}
+.chatcomposer{display:flex;gap:8px;margin-top:12px}
+.chatcomposer input{flex:1;min-width:0;background:#0b1728;border:1px solid var(--border);border-radius:6px;padding:12px;color:white}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+@keyframes pulse{50%{box-shadow:0 0 0 5px #00df9a22}}
+.pulse{animation:pulse 2s infinite}
+@media(max-width:950px){.stats{grid-template-columns:repeat(2,1fr)}.gridmain{grid-template-columns:1fr}}
+@media(max-width:650px){
+ .sidebar{width:65px;padding:17px 7px}.logo{padding:0 5px 25px}
+ .logoicon{width:43px;height:43px}.logoname,.navlabel,.navbtn .navtext,.planbox{display:none}
+ .navbtn{justify-content:center;padding:13px 4px}.navbtn .ico{font-size:19px}
+ .main{margin-left:65px}.topbar{padding:0 13px;height:60px}
+ .content{padding:18px 12px}.welcome h1{font-size:19px}
+ .welcome{align-items:flex-start;flex-direction:column}
+ .stats{gap:8px}.stat{padding:13px}.statvalue{font-size:22px}
+ .panel{padding:14px}.linkrow{flex-wrap:wrap}.linkactions{width:100%;padding-left:47px}
+ .chatlayout{grid-template-columns:1fr}.chatlist{display:none}
+}
 </style>
 </head>
 <body>
-<header>
-  <div class="brand">Nishad <span>Connect</span></div>
-  <div id="headerState" class="muted">Secure Chat</div>
-</header>
 
-<main>
-  <section id="loginView" class="panel">
-    <h2>Owner Login</h2>
-    <p class="muted">Sign in to manage your private chat links.</p>
-    <label class="muted">Email address</label>
-    <input id="email" type="email" placeholder="Owner email" autocomplete="username">
-    <label class="muted">Password</label>
-    <input id="password" type="password" placeholder="Password" autocomplete="current-password">
-    <button id="loginBtn" class="full">Login securely</button>
-    <div id="loginStatus" class="status"></div>
-    <p class="muted">Use the Owner account already created in Firebase Authentication.</p>
-  </section>
+<div id="loginScreen" class="loginwrap">
+ <section class="login">
+  <div class="logo"><div class="logoicon">N</div><div class="logoname">Nishad <span>Connect</span></div></div>
+  <h1>Welcome back</h1>
+  <div class="sub">Sign in to your private messaging workspace.</div>
+  <div class="field"><label>EMAIL ADDRESS</label><input id="email" type="email" placeholder="you@example.com"></div>
+  <div class="field"><label>PASSWORD</label><input id="password" type="password" placeholder="Enter password"></div>
+  <button class="btn" id="loginBtn">Sign in to workspace →</button>
+  <div id="loginStatus" class="note"></div>
+  <div class="note">Protected owner access · Nishad Connect</div>
+ </section>
+</div>
 
-  <section id="dashboardView" class="hidden">
-    <div class="panel">
-      <div class="row">
-        <div><h2>Owner Dashboard</h2><div id="ownerEmail" class="muted"></div></div>
-        <button id="logoutBtn" class="secondary">Logout</button>
-      </div>
-      <hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
-      <h3>Create a private chat link</h3>
-      <p class="muted">Generate a unique link and share it with your visitor.</p>
-      <button id="createBtn" class="full">＋ Create Chat Link</button>
-      <div id="createStatus" class="status"></div>
-      <div id="newLinkArea" class="hidden">
-        <input id="newLink" readonly>
-        <div class="row">
-          <button id="copyNewBtn">Copy Link</button>
-          <button id="shareNewBtn" class="secondary">Share Link</button>
-        </div>
-      </div>
-    </div>
-    <div class="panel">
-      <h3>Your Chat Links</h3>
-      <div id="linksList" class="muted">Loading your links...</div>
-    </div>
-  </section>
+<div id="appScreen" class="app hidden">
+ <aside class="sidebar">
+  <div class="logo"><div class="logoicon">N</div><div class="logoname">Nishad <span>Connect</span></div></div>
+  <div class="navlabel">WORKSPACE</div>
+  <button class="navbtn active" id="navDashboard"><span class="ico">▦</span><span class="navtext">Overview</span></button>
+  <button class="navbtn" id="navLinks"><span class="ico">↗</span><span class="navtext">Chat Links</span></button>
+  <button class="navbtn" id="navChats"><span class="ico">▤</span><span class="navtext">Conversations</span></button>
+  <div class="navlabel">ACCOUNT</div>
+  <button class="navbtn" id="navLogout"><span class="ico">⇥</span><span class="navtext">Sign out</span></button>
+  <div class="sidebarbottom"><div class="planbox"><strong>✦ Nishad Connect</strong><p>Your private messaging workspace. Keep your links safe and share only with people you trust.</p></div></div>
+ </aside>
 
-  <section id="guestView" class="panel hidden">
-    <h2>Join Private Chat</h2>
-    <p class="muted">Enter your display name to continue. No registration form is needed.</p>
-    <input id="guestName" maxlength="40" placeholder="Your name">
-    <button id="joinBtn" class="full">Join Chat</button>
-    <div id="guestStatus" class="status"></div>
-  </section>
+ <div class="main">
+  <header class="topbar">
+   <div class="topleft"><h2 id="pageTitle">Workspace Overview</h2></div>
+   <div class="topright"><div class="livepill pulse">● SYSTEM LIVE</div><div class="avatar" id="avatar">N</div></div>
+  </header>
 
-  <section id="chatView" class="panel hidden">
-    <div class="row">
-      <div><h2 id="chatTitle">Private Chat</h2><div class="muted" id="chatSubtitle">Live conversation</div></div>
-      <button id="exitChatBtn" class="secondary">Exit</button>
+  <div class="content" id="dashboardPage">
+   <div class="welcome">
+    <div><h1>Good to see you 👋</h1><div class="sub" id="welcomeEmail">Your workspace is ready.</div></div>
+    <button class="btn" id="newLinkBtn">＋ Create new link</button>
+   </div>
+
+   <div class="stats">
+    <div class="stat"><div class="stathead">TOTAL LINKS <span class="staticon">↗</span></div><div class="statvalue" id="totalLinks">—</div><div class="statfoot">All created chat links</div></div>
+    <div class="stat" style="--glow:#00df9a"><div class="stathead">ACTIVE LINKS <span class="staticon" style="color:var(--green)">●</span></div><div class="statvalue" id="activeLinks">—</div><div class="statfoot">Currently available</div></div>
+    <div class="stat" style="--glow:#b388ff"><div class="stathead">REVOKED LINKS <span class="staticon" style="color:#b388ff">⊘</span></div><div class="statvalue" id="revokedLinks">—</div><div class="statfoot">Disabled by you</div></div>
+    <div class="stat" style="--glow:#ffc766"><div class="stathead">MESSAGES <span class="staticon" style="color:var(--gold)">✉</span></div><div class="statvalue" id="totalMessages">—</div><div class="statfoot">Across accessible chats</div></div>
+   </div>
+
+   <div class="gridmain">
+    <section class="panel">
+     <div class="panelhead"><h3>Your chat links</h3><small id="linkCount">0 links</small></div>
+     <input class="search" id="linkSearch" placeholder="⌕  Search links...">
+     <div class="linklist" id="linkList"><div class="empty">Loading your workspace...</div></div>
+    </section>
+    <section class="panel">
+     <div class="panelhead"><h3>Workspace activity</h3><small>LIVE</small></div>
+     <div class="activity"><span class="dot"></span><div><strong>Firebase connected</strong><p>Your database connection is ready.</p></div></div>
+     <div class="activity"><span class="dot"></span><div><strong>Secure link control</strong><p>Create or deactivate your visitor links.</p></div></div>
+     <div class="activity"><span class="dot"></span><div><strong>Real-time messaging</strong><p>Messages sync through Firebase.</p></div></div>
+    </section>
+   </div>
+  </div>
+
+  <div class="content hidden" id="linksPage">
+   <div class="welcome"><div><h1>Chat Link Management</h1><div class="sub">Create, share and control your visitor access.</div></div><button class="btn" id="newLinkBtn2">＋ New link</button></div>
+   <section class="panel"><input class="search" id="linkSearch2" placeholder="⌕  Search your links..."><div class="linklist" id="linkList2"></div></section>
+  </div>
+
+  <div class="content hidden" id="chatsPage">
+   <div class="welcome"><div><h1>Conversations</h1><div class="sub">Choose an active or previous chat link to view its messages.</div></div></div>
+   <div class="chatlayout">
+    <div class="chatlist"><h3 style="font-size:13px">Your conversations</h3><div id="conversationList" class="sub">Loading...</div></div>
+    <div class="chatroom"><div id="chatEmpty" class="empty"><div class="emptyicon">▤</div>Select a conversation to open messages.</div>
+     <div id="chatActive" class="hidden"><div class="panelhead"><h3 id="chatHeading">Private conversation</h3><small id="chatState">LIVE</small></div>
+      <div class="chatmessages" id="chatMessages"></div>
+      <div class="chatcomposer"><input id="chatInput" placeholder="Write a message..." maxlength="2000"><button class="btn" id="sendBtn">Send</button></div>
+      <div id="chatStatus" class="sub" style="padding:8px 0"></div>
+     </div>
     </div>
-    <div id="chatMessages" class="chatbox"></div>
-    <div class="row">
-      <input id="chatInput" maxlength="2000" placeholder="Type a message...">
-      <button id="sendBtn">Send</button>
-    </div>
-    <div id="chatStatus" class="status"></div>
-  </section>
-</main>
-<footer> Nishad Connect · Private conversations </footer>
+   </div>
+  </div>
+ </div>
+</div>
+
+<div id="createModal" class="modalback hidden">
+ <div class="modal"><div class="panelhead"><h3>Create a new chat link</h3><button class="mini" id="closeModal">✕</button></div>
+  <div class="sub">Generate a private visitor link. Anyone with the link may be able to access the conversation while it is active.</div>
+  <input id="linkLabel" maxlength="40" placeholder="Link label (optional)">
+  <div id="modalStatus" class="sub"></div>
+  <div class="row" style="display:flex;gap:8px"><button class="btn" id="confirmCreate">Generate link</button><button class="btn secondary" id="cancelCreate">Cancel</button></div>
+ </div>
+</div>
+<div id="toast" class="toast"></div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyAlmYeF6aXZ3SopaJrIr8VY6A4yUiLlqcI",
-  authDomain: "nishadji-d1217.firebaseapp.com",
-  databaseURL: "https://nishadji-d1217-default-rtdb.europe-west1.firebasedatabase.app/",
-  projectId: "nishadji-d1217",
-  storageBucket: "nishadji-d1217.firebasestorage.app",
-  messagingSenderId: "865666120266",
-  appId: "1:865666120266:web:2555775db5465378bd44b3"
+const firebaseConfig={
+ apiKey:"AIzaSyAlmYeF6aXZ3SopaJrIr8VY6A4yUiLlqcI",
+ authDomain:"nishadji-d1217.firebaseapp.com",
+ databaseURL:"https://nishadji-d1217-default-rtdb.europe-west1.firebasedatabase.app/",
+ projectId:"nishadji-d1217",
+ storageBucket:"nishadji-d1217.firebasestorage.app",
+ messagingSenderId:"865666120266",
+ appId:"1:865666120266:web:2555775db5465378bd44b3"
 };
-
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.database();
-const $ = id => document.getElementById(id);
-const roomToken = new URLSearchParams(location.search).get("room");
-let currentRoom = null;
-let currentName = "";
-let messageListener = null;
-let ownerMode = false;
+const auth=firebase.auth(),db=firebase.database();
+const $=id=>document.getElementById(id);
+let allLinks=[],currentRoom=null,currentUser=null,messageRef=null,messageHandler=null;
+let currentRoomActive=false;
+const roomToken=new URLSearchParams(location.search).get("room");
 
-function show(view){
-  ["loginView","dashboardView","guestView","chatView"].forEach(id=>$(id).classList.add("hidden"));
-  $(view).classList.remove("hidden");
+function toast(t){$("toast").textContent=t;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2400)}
+function token(){const b=new Uint8Array(24);crypto.getRandomValues(b);return [...b].map(x=>x.toString(16).padStart(2,"0")).join("")}
+function chatUrl(t){return location.origin+location.pathname+"?room="+encodeURIComponent(t)}
+function setPage(page){
+ ["dashboardPage","linksPage","chatsPage"].forEach(x=>$(x).classList.add("hidden"));
+ $(page+"Page").classList.remove("hidden");
+ ["Dashboard","Links","Chats"].forEach(x=>{const id="nav"+x;$(id).classList.toggle("active",id.toLowerCase().includes(page.replace("Page","").toLowerCase()))});
+ $("pageTitle").textContent=page==="dashboard"?"Workspace Overview":page==="links"?"Chat Link Management":"Conversations";
+ if(page==="chats")renderConversations();
 }
-function status(id,message){$(id).textContent=message||""}
-function makeToken(){
-  const bytes = new Uint8Array(24);
-  crypto.getRandomValues(bytes);
-  return Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("");
-}
-function safeText(value){return String(value??"")}
-function formatTime(value){
-  if(!value)return "";
-  return new Date(value).toLocaleString();
-}
-function chatUrl(token){
-  return location.origin + location.pathname + "?room=" + encodeURIComponent(token);
-}
-
-$("loginBtn").onclick = async()=>{
-  const email=$("email").value.trim(), password=$("password").value;
-  if(!email||!password){status("loginStatus","Enter email and password.");return}
-  $("loginBtn").disabled=true;status("loginStatus","Signing in...");
-  try{
-    await auth.signInWithEmailAndPassword(email,password);
-  }catch(e){status("loginStatus",e.message)}
-  $("loginBtn").disabled=false;
+function showLogin(){ $("loginScreen").classList.remove("hidden");$("appScreen").classList.add("hidden")}
+function showApp(){ $("loginScreen").classList.add("hidden");$("appScreen").classList.remove("hidden")}
+$("loginBtn").onclick=async()=>{
+ const email=$("email").value.trim(),pass=$("password").value;
+ if(!email||!pass){$("loginStatus").textContent="Enter your email and password.";return}
+ $("loginBtn").disabled=true;$("loginStatus").textContent="Connecting securely...";
+ try{await auth.signInWithEmailAndPassword(email,pass)}
+ catch(e){$("loginStatus").textContent=e.message}
+ $("loginBtn").disabled=false;
 };
+$("password").addEventListener("keydown",e=>{if(e.key==="Enter")$("loginBtn").click()});
+$("navLogout").onclick=()=>auth.signOut();
+$("navDashboard").onclick=()=>setPage("dashboard");
+$("navLinks").onclick=()=>setPage("links");
+$("navChats").onclick=()=>setPage("chats");
+$("newLinkBtn").onclick=$("newLinkBtn2").onclick=()=>$("createModal").classList.remove("hidden");
+$("closeModal").onclick=$("cancelCreate").onclick=()=>$("createModal").classList.add("hidden");
 
-$("logoutBtn").onclick=()=>auth.signOut();
-$("createBtn").onclick=async()=>{
-  const user=auth.currentUser;
-  if(!user||user.isAnonymous)return;
-  $("createBtn").disabled=true;status("createStatus","Creating secure link...");
-  try{
-    const token=makeToken(), now=Date.now();
-    const updates={};
-    updates["publicLinks/"+token]={ownerUid:user.uid,active:true,createdAt:now};
-    updates["ownerLinks/"+user.uid+"/"+token]=true;
-    await db.ref().update(updates);
-    $("newLink").value=chatUrl(token);
-    $("newLinkArea").classList.remove("hidden");
-    status("createStatus","Your chat link is ready.");
-    loadOwnerLinks(user.uid);
-  }catch(e){status("createStatus","Could not create link: "+e.message)}
-  $("createBtn").disabled=false;
-};
-$("copyNewBtn").onclick=async()=>{
-  try{await navigator.clipboard.writeText($("newLink").value);status("createStatus","Link copied!")}
-  catch(e){$("newLink").select();status("createStatus","Select the link and copy it.")}
-};
-$("shareNewBtn").onclick=async()=>{
-  const url=$("newLink").value;
-  if(navigator.share){try{await navigator.share({title:"Nishad Connect Chat",url})}catch(e){}}
-  else{try{await navigator.clipboard.writeText(url);status("createStatus","Link copied. Share it with your visitor.")}catch(e){status("createStatus","Copy the link manually.")}}
-};
+async function createLink(){
+ const user=auth.currentUser;if(!user||user.isAnonymous)return;
+ $("confirmCreate").disabled=true;$("modalStatus").textContent="Generating secure link...";
+ try{
+  const t=token(),label=$("linkLabel").value.trim()||"Private chat";
+  const now=Date.now(),updates={};
+  updates["publicLinks/"+t]={ownerUid:user.uid,active:true,createdAt:now,label};
+  updates["ownerLinks/"+user.uid+"/"+t]=true;
+  await db.ref().update(updates);
+  $("createModal").classList.add("hidden");$("linkLabel").value="";
+  await loadLinks();toast("Your private link is ready.");
+  const url=chatUrl(t);
+  if(navigator.share){try{await navigator.share({title:"Nishad Connect",url})}catch(e){}}
+  else{try{await navigator.clipboard.writeText(url);toast("Link created and copied.")}catch(e){prompt("Copy your chat link",url)}}
+ }catch(e){$("modalStatus").textContent=e.message}
+ $("confirmCreate").disabled=false;
+}
+$("confirmCreate").onclick=createLink;
 
-async function loadOwnerLinks(uid){
-  const list=$("linksList");list.textContent="Loading...";
-  try{
-    const snap=await db.ref("ownerLinks/"+uid).get();
-    if(!snap.exists()){list.textContent="No chat links yet. Create your first link.";return}
-    list.innerHTML="";
-    const tokens=Object.keys(snap.val()||{}).reverse();
-    for(const token of tokens){
-      const linkSnap=await db.ref("publicLinks/"+token).get();
-      if(!linkSnap.exists())continue;
-      const data=linkSnap.val();
-      const item=document.createElement("div");item.className="linkitem";
-      const title=document.createElement("strong");title.textContent=data.active?"Active chat link":"Revoked chat link";
-      const url=document.createElement("div");url.className="linkurl";url.textContent=chatUrl(token);
-      const actions=document.createElement("div");actions.className="row";
-      const open=document.createElement("button");open.textContent="Open Chat";open.onclick=()=>location.href=chatUrl(token);
-      const copy=document.createElement("button");copy.className="secondary";copy.textContent="Copy";copy.onclick=async()=>{try{await navigator.clipboard.writeText(chatUrl(token));copy.textContent="Copied"}catch(e){url.textContent=chatUrl(token)}};
-      const revoke=document.createElement("button");revoke.className=data.active?"danger":"secondary";revoke.textContent=data.active?"Revoke":"Reactivate";
-      revoke.onclick=async()=>{
-        revoke.disabled=true;
-        try{await db.ref("publicLinks/"+token+"/active").set(!data.active);loadOwnerLinks(uid)}
-        catch(e){alert("Could not update link: "+e.message);revoke.disabled=false}
-      };
-      actions.append(open,copy,revoke);item.append(title,url,actions);list.append(item);
-    }
-    if(!list.children.length)list.textContent="No available links.";
-  }catch(e){list.textContent="Could not load links: "+e.message}
+async function loadLinks(){
+ const user=auth.currentUser;if(!user||user.isAnonymous)return;
+ const listSnap=await db.ref("ownerLinks/"+user.uid).get();
+ const tokens=Object.keys(listSnap.val()||{}).reverse();
+ allLinks=[];
+ for(const t of tokens){
+  const s=await db.ref("publicLinks/"+t).get();
+  if(s.exists())allLinks.push({token:t,...s.val()});
+ }
+ renderLinks();
+ $("totalLinks").textContent=allLinks.length;
+ $("activeLinks").textContent=allLinks.filter(x=>x.active).length;
+ $("revokedLinks").textContent=allLinks.filter(x=>!x.active).length;
+ let count=0;
+ for(const l of allLinks){
+  const m=await db.ref("chats/"+l.token+"/messages").get();
+  count+=m.numChildren();
+ }
+ $("totalMessages").textContent=count;
 }
-
-async function startGuest(){
-  show("guestView");
-  status("guestStatus","Connecting...");
-  try{
-    if(!auth.currentUser)await auth.signInAnonymously();
-    const snap=await db.ref("publicLinks/"+roomToken).get();
-    if(!snap.exists()||snap.val().active!==true){
-      status("guestStatus","This chat link is invalid or has been deactivated.");$("joinBtn").disabled=true;return;
-    }
-    $("guestName").value=localStorage.getItem("nc_name_"+roomToken)||"";
-    status("guestStatus","Connected. Enter your name to join.");
-  }catch(e){status("guestStatus","Connection error: "+e.message)}
-}
-$("joinBtn").onclick=async()=>{
-  const name=$("guestName").value.trim();
-  if(!name||name.length>40){status("guestStatus","Enter a name (maximum 40 characters).");return}
-  currentName=name;localStorage.setItem("nc_name_"+roomToken,name);
-  currentRoom=roomToken;ownerMode=false;
-  await openChat();
-};
-async function openChat(){
-  try{
-    const link=await db.ref("publicLinks/"+currentRoom).get();
-    if(!link.exists()||link.val().active!==true){
-      show("guestView");status("guestStatus","This link is no longer active.");return;
-    }
-    $("chatTitle").textContent="Private Chat";
-    $("chatSubtitle").textContent="Connected as "+currentName;
-    show("chatView");listenMessages();
-  }catch(e){status("chatStatus","Could not open chat: "+e.message)}
-}
-function listenMessages(){
-  const ref=db.ref("chats/"+currentRoom+"/messages").limitToLast(200);
-  if(messageListener)ref.off("child_added",messageListener);
-  messageListener=snap=>{
-    const m=snap.val()||{};
-    const box=$("chatMessages");
-    const msg=document.createElement("div");
-    msg.className="msg"+(m.uid===auth.currentUser?.uid?" mine":"");
-    const name=document.createElement("div");name.className="msgname";name.textContent=safeText(m.name);
-    const text=document.createElement("div");text.className="msgtext";text.textContent=safeText(m.text);
-    const time=document.createElement("div");time.className="msgtime";time.textContent=formatTime(m.createdAt);
-    msg.append(name,text,time);box.append(msg);box.scrollTop=box.scrollHeight;
-  };
-  ref.on("child_added",messageListener,error=>status("chatStatus",error.message));
-}
-async function sendMessage(){
-  const text=$("chatInput").value.trim();
-  if(!text||!currentRoom||!auth.currentUser)return;
-  $("sendBtn").disabled=true;
-  try{
-    const link=await db.ref("publicLinks/"+currentRoom).get();
-    if(!link.exists()||link.val().active!==true)throw new Error("This chat link has been deactivated.");
-    await db.ref("chats/"+currentRoom+"/messages").push({
-      uid:auth.currentUser.uid,name:currentName,text,createdAt:Date.now()
-    });
-    $("chatInput").value="";status("chatStatus","");
-  }catch(e){status("chatStatus",e.message)}
-  $("sendBtn").disabled=false;
-}
-$("sendBtn").onclick=sendMessage;
-$("chatInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();sendMessage()}});
-$("exitChatBtn").onclick=()=>{if(messageListener&&currentRoom)db.ref("chats/"+currentRoom+"/messages").off("child_added",messageListener);location.href=location.pathname};
-
-auth.onAuthStateChanged(async user=>{
-  if(roomToken){await startGuest();return}
-  if(user&&!user.isAnonymous){
-    ownerMode=true;$("ownerEmail").textContent=user.email||"Owner";
-    $("headerState").textContent="Owner Dashboard";show("dashboardView");loadOwnerLinks(user.uid);
-  }else{
-    show("loginView");$("headerState").textContent="Owner Login";
-  }
-});
-</script>
-</body>
-      </html>
-  
+function renderLinks(){
+ const query=($("linkSearch").value||$("linkSearch2").value||"").toLowerCase();
+ const rows=allLinks.filter(x=>(x.label||"Private chat
