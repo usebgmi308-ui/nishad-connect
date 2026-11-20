@@ -140,6 +140,53 @@ button:disabled{opacity:.5;cursor:not-allowed}
 }
 </style>
 </head>
+ 
+<script>
+(function () {
+  const btn = document.getElementById("loginBtn");
+  const status = document.getElementById("loginStatus");
+
+  if (!btn || !status) return;
+
+  btn.onclick = async function () {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    btn.disabled = true;
+    status.textContent = "Checking Firebase connection...";
+
+    try {
+      if (!window.firebase) {
+        throw new Error("Firebase SDK load nahi hua. Internet check karein.");
+      }
+
+      if (!firebase.apps.length) {
+        throw new Error("Firebase initialize nahi hua.");
+      }
+
+      if (!email || !password) {
+        throw new Error("Email aur password dono bhariye.");
+      }
+
+      status.textContent = "Signing in...";
+
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+
+      status.textContent = "Login successful. Opening dashboard...";
+    } catch (error) {
+      console.error("Nishad Connect Login:", error);
+      status.textContent = error.code
+        ? error.code + ": " + error.message
+        : error.message;
+    } finally {
+      btn.disabled = false;
+    }
+  };
+})();
+</script>
+</body>
+</html>
+
 <body>
 
 <div id="loginScreen" class="loginwrap">
